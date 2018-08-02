@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: mockmetrics-service
+  labels:
+    app: mockmetrics-app
+spec:
+  ports:
+  - name: metrics-svc-port
+    port: 80
+    targetPort: 8080
+  selector:
+    app: mockmetrics

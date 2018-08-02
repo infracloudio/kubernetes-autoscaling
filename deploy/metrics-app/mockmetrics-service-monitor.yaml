@@ -1,0 +1,19 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: mockmetrics-sm
+  namespace: monitoring
+  labels:
+    prometheus: mon
+spec:
+  jobLabel: mockmetrics
+  selector:
+    matchLabels:
+      app: mockmetrics-app
+  namespaceSelector:
+    matchNames:
+    - default
+  endpoints:
+  - port: metrics-svc-port
+    interval: 10s
+    path: /metrics
