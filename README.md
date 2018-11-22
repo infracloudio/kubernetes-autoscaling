@@ -24,6 +24,12 @@ We will be using helm to install some of the components we need for this demo
   ```
   helm init --service-account tiller
   ```
+- Verify the installation
+  ```console
+  $ helm version
+  Client: &version.Version{SemVer:"v2.11.0", GitCommit:"2e55dbe1fdb5fdb96b75ff144a339489417b146b", GitTreeState:"clean"}
+  Server: &version.Version{SemVer:"v2.11.0", GitCommit:"2e55dbe1fdb5fdb96b75ff144a339489417b146b", GitTreeState:"clean"}
+  ```
 
 ## Installing prometheus-operator and Prometheus
 Now, we will install [prometheus-operator](https://github.com/coreos/prometheus-operator) and we will deploy an instance of Prometheus with the help of the operator
