@@ -147,7 +147,7 @@ It's a simple web server written in Golang which exposes total hit count at `/me
 
 - Check if the `mockmetrics-service` appears as target in the Prometheus dashboard
   ```console
-  $ kubectl port-forward svc/mon-prometheus 9090:9090 --namespace monitoring
+  $ kubectl port-forward svc/mon-prometheus-operator-prometheus 9090:9090 --namespace monitoring
   Forwarding from 127.0.0.1:9090 -> 9090
   Forwarding from [::1]:9090 -> 9090
   ```
@@ -244,7 +244,7 @@ It's a simple web server written in Golang which exposes total hit count at `/me
   Once the value is greater than the target, HPA will automatically increase the number of replicas for the `mockmetrics-deploy`
 - To bring the value down, execute following command in the first terminal tab
   ```console
-  $ curl localhost:8080/scale/up
+  $ curl localhost:8080/scale/down
   Going down :P
 
   $ kubectl get hpa -w
