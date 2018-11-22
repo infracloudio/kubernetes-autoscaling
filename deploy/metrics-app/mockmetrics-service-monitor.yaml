@@ -4,7 +4,7 @@ metadata:
   name: mockmetrics-sm
   namespace: monitoring
   labels:
-    prometheus: mon
+    release: mon
 spec:
   jobLabel: mockmetrics
   selector:

@@ -24,7 +24,7 @@ We will be using helm to install some of the components we need for this demo
   ```
   helm init --service-account tiller
   ```
-- Verify the installation
+- Verify the installation, make sure the version is 2.10+
   ```console
   $ helm version
   Client: &version.Version{SemVer:"v2.11.0", GitCommit:"2e55dbe1fdb5fdb96b75ff144a339489417b146b", GitTreeState:"clean"}
@@ -32,51 +32,36 @@ We will be using helm to install some of the components we need for this demo
   ```
 
 ## Installing prometheus-operator and Prometheus
-Now, we will install [prometheus-operator](https://github.com/coreos/prometheus-operator) and we will deploy an instance of Prometheus with the help of the operator
+Now, we will install [prometheus-operator](https://github.com/coreos/prometheus-operator), that will also deploy an instance of Prometheus with the help of operator
 
-- Add CoreOS repository to helm
-  ```
-  helm repo add coreos https://s3-eu-west-1.amazonaws.com/coreos-charts/stable/
-  ```
 - Install prometheus-operator
 
   This will install `prometheus-operator` in the namespace `monitoring` and it will create [`CustomResourceDefinitions`](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/#customresourcedefinitions) for `AlertManager`, `Prometheus` and `ServiceMonitor` etc.
   ```
-  helm install \
-    --name prometheus-operator \
+  $ helm install \
+    --name mon \
     --namespace monitoring \
-    coreos/prometheus-operator
+    stable/prometheus-operator
   ```
   ```console
   $ kubectl get crd --namespace monitoring
-  NAME                                    AGE
-  alertmanagers.monitoring.coreos.com     5h
-  prometheuses.monitoring.coreos.com      5h
-  prometheusrules.monitoring.coreos.com   5h
-  servicemonitors.monitoring.coreos.com   5h
+  NAME                                    CREATED AT
+  alertmanagers.monitoring.coreos.com     2018-11-22T10:26:55Z
+  prometheuses.monitoring.coreos.com      2018-11-22T10:26:55Z
+  prometheusrules.monitoring.coreos.com   2018-11-22T10:26:56Z
+  servicemonitors.monitoring.coreos.com   2018-11-22T10:26:56Z
   ```
-- Installing Prometheus
 
-  This will deploy an instance of Prometheus using [`kube-prometheus`](https://github.com/coreos/prometheus-operator/tree/master/helm/kube-prometheus)
-  ```
-  helm install \
-    --name mon \
-    --namespace monitoring \
-    -f deploy/prometheus/kube-prometheus-values.yaml \
-    coreos/kube-prometheus
-  ```
 - Check if all the components are deployed properly
   ```console
   $ kubectl get pods --namespace monitoring
-  NAME                                       READY     STATUS    RESTARTS   AGE
-  alertmanager-mon-0                         2/2       Running   0          5h
-  mon-exporter-kube-state-5bd6bbf5c5-7bbzn   2/2       Running   0          5h
-  mon-exporter-node-2vx9x                    1/1       Running   0          5h
-  mon-exporter-node-75cfh                    1/1       Running   0          5h
-  mon-exporter-node-bgqcg                    1/1       Running   0          5h
-  mon-grafana-5cb457656f-hcg4t               2/2       Running   0          5h
-  prometheus-mon-prometheus-0                3/3       Running   1          5h
-  prometheus-operator-d75587d6-v7tfr         1/1       Running   0          5h
+  NAME                                                  READY     STATUS    RESTARTS   AGE
+  alertmanager-mon-prometheus-operator-alertmanager-0   2/2       Running   0          6m
+  mon-grafana-f7c558d65-wwbrl                           3/3       Running   0          6m
+  mon-kube-state-metrics-75b445797f-7jnzg               1/1       Running   0          6m
+  mon-prometheus-node-exporter-n2zmq                    1/1       Running   0          6m
+  mon-prometheus-operator-operator-587ccd9566-2ddq9     1/1       Running   0          6m
+  prometheus-mon-prometheus-operator-prometheus-0       3/3       Running   1          6m
   ```
 
 ## Deploying the mockmetrics application
@@ -112,7 +97,7 @@ It's a simple web server written in Golang which exposes total hit count at `/me
     name: mockmetrics-sm
     namespace: monitoring
     labels:
-      prometheus: mon
+      release: mon
   spec:
     jobLabel: mockmetrics
     selector:
