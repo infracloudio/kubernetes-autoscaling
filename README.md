@@ -176,7 +176,7 @@ It's a simple web server written in Golang which exposes total hit count at `/me
   ```
   This will create all the resources in the `custom-metrics` namespace
   - `custom-metrics-server/custom-metrics-server-config.yaml`  
-    This file contains the `configMap` used to create the configuration file for the adapter, which configures how the metrics are fetched from Prometheus and how to associate those with the Kubernetes resources. More details about writing the configuration can be found [here](https://github.com/DirectXMan12/k8s-prometheus-adapter/blob/master/docs/config.md)
+    This file contains the `configMap` used to create the configuration file for the adapter, which configures how the metrics are fetched from Prometheus and how to associate those with the Kubernetes resources. More details about writing the configuration can be found [here](https://github.com/DirectXMan12/k8s-prometheus-adapter/blob/master/docs/config.md). [_A walkthrough of the configuration._](https://github.com/DirectXMan12/k8s-prometheus-adapter/blob/master/docs/config-walkthrough.md)
   - `custom-metrics-server/custom-metrics-server-rbac.yaml`  
     Contains ServiceAccount, ClusterRoles, RoleBindings, ClusterRoleBindings to grant required permissions to the adapter
   - `custom-metrics-server/custom-metrics-server.yaml`  
