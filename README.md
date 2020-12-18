@@ -266,6 +266,23 @@ It's a simple web server written in Go which exposes total hit count at `/metric
   mockmetrics-app-hpa   Deployment/mockmetrics-deploy   0/100        1         10        1          53m
   ```
 
+## Clean up (optional)
+To clean up all the resources created as part of this tutorial, run the following commands.
+
+```console
+$ helm delete prometheus-adapter --namespace prometheus-adapter
+release "prometheus-adapter" uninstalled
+
+$ kubectl delete -f deploy/metrics-app/
+deployment.apps "mockmetrics-deploy" deleted
+horizontalpodautoscaler.autoscaling "mockmetrics-app-hpa" deleted
+servicemonitor.monitoring.coreos.com "mockmetrics-sm" deleted
+service "mockmetrics-service" deleted
+
+$ helm delete mon --namespace monitoring
+release "mon" uninstalled
+```
+
 ## Other references and credits
 - Writing ServiceMonitor
   - [Cluster Monitoring using Prometheus Operator](https://github.com/coreos/prometheus-operator/blob/master/Documentation/user-guides/cluster-monitoring.md)
