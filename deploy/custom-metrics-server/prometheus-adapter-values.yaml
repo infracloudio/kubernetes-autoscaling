@@ -1,0 +1,16 @@
+prometheus:
+  url: http://mon-kube-prometheus-stack-prometheus.monitoring.svc
+
+rules:
+  default: false
+  custom:
+  - seriesQuery: '{namespace="default",service="mockmetrics-service"}'
+    resources:
+      overrides:
+        namespace:
+          resource: "namespace"
+        service:
+          resource: "service"
+    # name:
+    #   matches: "(.*)"
+    metricsQuery: 'avg(sum_over_time(total_hit_count{pod=~"mockmetrics-deploy-(.*)"}[2m])) by (service)'

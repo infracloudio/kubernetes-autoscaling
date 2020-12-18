@@ -4,7 +4,7 @@ metadata:
   name: mockmetrics-app-hpa
 spec:
   scaleTargetRef:
-    apiVersion: apps/v1beta1
+    apiVersion: apps/v1
     kind: Deployment
     name: mockmetrics-deploy
   minReplicas: 1
@@ -17,4 +17,3 @@ spec:
         name: mockmetrics-service
       metricName: total_hit_count
       targetValue: 100
-
